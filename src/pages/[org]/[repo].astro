@@ -1,0 +1,101 @@
+---
+import { Header, type HeaderProps } from "@/components/Header";
+import Markdoc from '@markdoc/markdoc';
+import Layout from "@/layouts/Layout.astro";
+
+
+
+export const prerender = false;
+
+const { org, repo } = Astro.params;
+let response = await fetch(`https://api.github.com/repos/${org}/${repo}`, {
+  headers: {
+    Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+  },
+});
+let headerProps!: HeaderProps;
+let bufferContent:any
+if (response?.status == 200) {
+  const data = await response.json();
+
+  let userData = await (
+    await fetch(data?.owner?.url, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+      },
+    })
+  ).json();
+  console.log(userData);
+
+  headerProps = {
+    orgName: (data?.full_name as string)?.split("/")[0],
+    repoName: data?.name,
+    orgUrl: userData?.html_url,
+    repoUrl: data?.html_url,
+    orgType: userData?.type,
+    ownerDetails: {
+      displayName: userData?.name,
+      avatarUrl: userData?.avatar_url,
+      location: userData?.location,
+      about: userData?.bio,
+      ownerUrl: userData?.html_url,
+      repoCount: userData?.public_repos,
+    },
+  };
+  let readmeData = await (
+    await fetch(`https://api.github.com/repos/${org}/${repo}/readme`, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+      },
+    })
+  ).json();
+  bufferContent = Buffer.from(readmeData?.content, 'base64').toString('utf8')
+}
+const source = bufferContent;
+
+const ast = Markdoc.parse(source);
+const config = {
+    tags: {
+      render: 'markdoc-callout',
+    children: ['paragraph'],
+    attributes: {
+      type: {
+        type: String,
+        default: 'note',
+        matches: ['check', 'error', 'note', 'warning']
+      }
+    }
+    },
+    variables: {}
+  };
+// const content = Markdoc.transform(ast, config);
+
+// const html = Markdoc.renderers.html(content);
+// const file = await unified()
+//   .use(remarkParse)
+//   .use(remarkGfm, {singleTilde: false})
+//   .use(remarkRehype)
+//   .use(rehypeStringify)
+//   .process(bufferContent);
+//  console.log(bufferContent)
+---
+
+{
+  response?.status == 200 ? (
+    <Layout>
+      <Header client:load slot="header" {...headerProps} />
+
+      <div class="grid grid-cols-[2fr_1fr] border-red border-solid border-1 w-full px-10">
+        <div class="border-yellow">
+        </div>
+        <div class="border-black" />
+      </div>
+    </Layout>
+  ) : (
+    <Layout>
+      <div class="w-full h-full">
+        <h1 class="text-center">404 not found</h1>
+      </div>
+    </Layout>
+  )
+}
