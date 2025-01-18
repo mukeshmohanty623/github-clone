@@ -1,9 +1,10 @@
 ---
+import { CodeTreeTable, type CodeTreeRow, type CodeTreeTableProps } from "@/components/CodeTreeTable";
 import { Header, type HeaderProps } from "@/components/Header";
-import Markdoc from '@markdoc/markdoc';
+import { MainHeader, type MainHeaderProps } from "@/components/MainHeader";
+import { DropdownMenuComponent } from "@/components/PoppoverComponent";
+import { Button } from "@/components/ui/button";
 import Layout from "@/layouts/Layout.astro";
-
-
 
 export const prerender = false;
 
@@ -14,7 +15,10 @@ let response = await fetch(`https://api.github.com/repos/${org}/${repo}`, {
   },
 });
 let headerProps!: HeaderProps;
-let bufferContent:any
+let mainHeaderProps!: MainHeaderProps;
+let codeTreeProps!:CodeTreeTableProps;
+let codeTreeRows:CodeTreeRow[] = []
+let bufferContent: any;
 if (response?.status == 200) {
   const data = await response.json();
 
@@ -25,7 +29,6 @@ if (response?.status == 200) {
       },
     })
   ).json();
-  console.log(userData);
 
   headerProps = {
     orgName: (data?.full_name as string)?.split("/")[0],
@@ -49,51 +52,77 @@ if (response?.status == 200) {
       },
     })
   ).json();
-  bufferContent = Buffer.from(readmeData?.content, 'base64').toString('utf8')
-}
-const source = bufferContent;
-
-const ast = Markdoc.parse(source);
-const config = {
-    tags: {
-      render: 'markdoc-callout',
-    children: ['paragraph'],
-    attributes: {
-      type: {
-        type: String,
-        default: 'note',
-        matches: ['check', 'error', 'note', 'warning']
-      }
-    }
-    },
-    variables: {}
+  bufferContent = Buffer.from(readmeData?.content, "base64").toString("utf8");
+  mainHeaderProps = {
+    branchUrl: `${data?.html_url}/branches`,
+    tagsUrl: `${data?.html_url}/tags`,
+    uploadFileUrl: `${data?.html_url}/upload/main`,
+    newFileUrl: `${data?.html_url}/new/main`,
+    tagsCount: "20",
+    branchCount: "20",
   };
-// const content = Markdoc.transform(ast, config);
-
-// const html = Markdoc.renderers.html(content);
-// const file = await unified()
-//   .use(remarkParse)
-//   .use(remarkGfm, {singleTilde: false})
-//   .use(remarkRehype)
-//   .use(rehypeStringify)
-//   .process(bufferContent);
-//  console.log(bufferContent)
+  codeTreeRows = [
+    {
+      type:'folder',
+      commitMessage: 'test: migrated register.test.js from tap to node:test',
+      commitMessageUrl:'https://github.com/fastify/fastify/commit/84d7e6f0012149f111bcbc3eadc34222034a7a08',
+      fileName:'.github',
+      prId:'5918',
+      lastModified: new Date().toISOString(),
+    }
+  ]
+  for(let i=1;i<=30;i++){
+    if(i%2==0){
+      codeTreeRows.push({
+        type:'folder',
+      commitMessage: 'test: migrated register.test.js from tap to node:test',
+      commitMessageUrl:'https://github.com/fastify/fastify/commit/84d7e6f0012149f111bcbc3eadc34222034a7a08',
+      fileName:'.github',
+      prId:'5918',
+      lastModified: new Date().toISOString(),
+      })
+    }else{
+      codeTreeRows.push({
+      type:'file',
+      commitMessage: 'test: migrated register.test.js from tap to node:test',
+      commitMessageUrl:'https://github.com/fastify/fastify/commit/84d7e6f0012149f111bcbc3eadc34222034a7a08',
+      fileName:'.github',
+      prId:'5918',
+      lastModified: new Date().toISOString(),
+      })
+    }
+  }
+  codeTreeProps = {
+    branchName: 'main',
+    repoUrl: data?.html_url,
+    lastCommitMessage: 'test: migrated register.test.js from tap to node:test (#5918)',
+    lastCommitMessageUrl: 'https://github.com/fastify/fastify/commit/84d7e6f0012149f111bcbc3eadc34222034a7a08',
+    lastCommitid: '84d7e6f',
+    lastCommitModifiedTime: new Date().toISOString(),
+    totalCommits:'4,284',
+    lastCommitAuthorName:'Tony133',
+    lastCommitAuthorImageSrcUrl:'https://github.com/shadcn.png',
+    lastCommitPrId:'5918',
+    rows:codeTreeRows
+  }
+}
 ---
 
 {
   response?.status == 200 ? (
     <Layout>
       <Header client:load slot="header" {...headerProps} />
-
-      <div class="grid grid-cols-[2fr_1fr] border-red border-solid border-1 w-full px-10">
-        <div class="border-yellow">
+      <div class="grid lg:grid-cols-[2fr_1fr] grid-cols-[1fr] max-w-[1280px] px-4 mr-auto ml-auto py-2">
+        <div class="">
+          <MainHeader {...mainHeaderProps} client:load />
+          <CodeTreeTable {...codeTreeProps} client:load/>
         </div>
-        <div class="border-black" />
+        <div class="border-black border-solid border h-96" />
       </div>
     </Layout>
   ) : (
     <Layout>
-      <div class="w-full h-full">
+      <div class="w-full">
         <h1 class="text-center">404 not found</h1>
       </div>
     </Layout>

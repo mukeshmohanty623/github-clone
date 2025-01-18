@@ -7,7 +7,7 @@ import '@styles/global.css'
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="max-w-screen h-screen">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -15,12 +15,12 @@ import '@styles/global.css'
     <meta name="generator" content={Astro.generator} />
     <title>Github clone</title>
   </head>
-  <body>
+  <body class="max-w-screen h-screen">
     <header>
       <slot  name="header" />
-      <HeaderTabs client:load/>
+      <!-- <HeaderTabs client:load/> -->
     </header>
-    <main>
+    <main class="max-w-full">
       <slot />
     </main>
   </body>

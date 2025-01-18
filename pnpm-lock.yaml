@@ -11,9 +11,6 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.1.4
     version: 5.1.4(astro@5.1.1)(tailwindcss@3.4.17)
-  '@markdoc/markdoc':
-    specifier: ^0.4.0
-    version: 0.4.0(@types/react@19.0.2)(react@19.0.0)
   '@radix-ui/react-avatar':
     specifier: ^1.1.2
     version: 1.1.2(@types/react-dom@19.0.2)(@types/react@19.0.2)(react-dom@19.0.0)(react@19.0.0)
@@ -56,30 +53,18 @@ dependencies:
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
+  dayjs:
+    specifier: ^1.11.13
+    version: 1.11.13
   lucide-react:
     specifier: ^0.469.0
     version: 0.469.0(react@19.0.0)
-  marked:
-    specifier: ^15.0.4
-    version: 15.0.4
   react:
     specifier: ^19.0.0
     version: 19.0.0
   react-dom:
     specifier: ^19.0.0
     version: 19.0.0(react@19.0.0)
-  rehype-stringify:
-    specifier: ^10.0.1
-    version: 10.0.1
-  remark-gfm:
-    specifier: ^4.0.0
-    version: 4.0.0
-  remark-parse:
-    specifier: ^11.0.0
-    version: 11.0.0
-  remark-rehype:
-    specifier: ^11.1.1
-    version: 11.1.1
   tailwind-merge:
     specifier: ^2.6.0
     version: 2.6.0
@@ -89,9 +74,6 @@ dependencies:
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.17)
-  unified:
-    specifier: ^11.0.5
-    version: 11.0.5
 
 devDependencies:
   '@types/node':
@@ -1065,24 +1047,6 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
-    dev: false
-
-  /@markdoc/markdoc@0.4.0(@types/react@19.0.2)(react@19.0.0):
-    resolution: {integrity: sha512-fSh4P3Y4E7oaKYc2oNzSIJVPDto7SMzAuQN1Iyx53UxzleA6QzRdNWRxmiPqtVDaDi5dELd2yICoG91csrGrAw==}
-    engines: {node: '>=14.7.0'}
-    peerDependencies:
-      '@types/react': '*'
-      react: '*'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      react:
-        optional: true
-    dependencies:
-      '@types/react': 19.0.2
-      react: 19.0.0
-    optionalDependencies:
-      '@types/markdown-it': 12.2.3
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
@@ -2174,32 +2138,11 @@ packages:
       '@types/unist': 3.0.3
     dev: false
 
-  /@types/linkify-it@5.0.0:
-    resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@types/markdown-it@12.2.3:
-    resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
-    requiresBuild: true
-    dependencies:
-      '@types/linkify-it': 5.0.0
-      '@types/mdurl': 2.0.0
-    dev: false
-    optional: true
-
   /@types/mdast@4.0.4:
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
     dependencies:
       '@types/unist': 3.0.3
     dev: false
-
-  /@types/mdurl@2.0.0:
-    resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /@types/ms@0.7.34:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
@@ -2683,6 +2626,10 @@ packages:
 
   /csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+    dev: false
+
+  /dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
     dev: false
 
   /debug@4.4.0:
@@ -3439,12 +3386,6 @@ packages:
 
   /markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
-    dev: false
-
-  /marked@15.0.4:
-    resolution: {integrity: sha512-TCHvDqmb3ZJ4PWG7VEGVgtefA5/euFmsIhxtD0XsBxI39gUSKL81mIRFdt0AiNQozUahd4ke98ZdirExd/vSEw==}
-    engines: {node: '>= 18'}
-    hasBin: true
     dev: false
 
   /mdast-util-definitions@6.0.0:

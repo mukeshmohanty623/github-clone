@@ -251,12 +251,12 @@ export function Header({
 
   return (
     <>
-      <div className="flex justify-between items-center mx-5 my-3">
-        <div className="flex items-center">
+      <div className="flex justify-between items-center px-2 lg:px-3 py-3 w-full">
+        <div className="flex items-center flex-wrap">
           <Button variant="outline" size="icon">
             <Menu />
           </Button>
-          <a href="https://www.github.com" aria-label="github" className="ml-2">
+          <a href="https://www.github.com" aria-label="github" className="">
             <Icons.gitHub title="github" />
           </a>
           <a href={orgUrl} aria-label="github">
@@ -274,8 +274,8 @@ export function Header({
             <Button variant={"ghost"}>{repoName}</Button>
           </a>
         </div>
-        <div className="flex items-center justify-end gap-2">
-          <div className="flex w-64 h-9 rounded-md gap-2 px-2 border-gray-300 border items-center">
+        <div className="flex items-center justify-end gap-2 flex-wrap">
+          <div className="lg:flex md:flex lg:w-64 h-9 hidden rounded-md gap-2 px-2 border-gray-300 border items-center">
             <Search size={20} strokeWidth={1} />
             Search
           </div>
@@ -330,67 +330,73 @@ export function Header({
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <TooltipComponent tooltipContent={"Create new..."}>
-                <Button variant={"outline"} size={"sm"}>
-                  <Plus size={0.5} />
-                  <ChevronDown size={0.5} />
-                </Button>
-              </TooltipComponent>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BookMarked size={20} />
-                  <h4 className="text-base">New Repository</h4>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <BookUp size={20} />
-                  <h4 className="text-base">Import Repository</h4>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator className="bg-gray-300" />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Computer size={20} />
-                  <h4 className="text-base">New CodeSpace</h4>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <ChevronsLeftRight size={20} />
-                  <h4 className="text-base">New Gist</h4>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator className="bg-gray-300" />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Building2 size={20} />
-                  <h4 className="text-base">New Organization</h4>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <TooltipComponent tooltipContent={"Issues"}>
-            <Button variant={"outline"} size={"sm"}>
-              <CircleDot size={0.5} />
-            </Button>
-          </TooltipComponent>
-          <TooltipComponent tooltipContent={"Pull Requests"}>
-            <Button variant={"outline"} size={"sm"}>
-              <GitPullRequest size={0.5} />
-            </Button>
-          </TooltipComponent>
+          <div className="lg:block md:block  hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <TooltipComponent tooltipContent={"Create new..."}>
+                  <Button variant={"outline"} size={"sm"}>
+                    <Plus size={0.5} />
+                    <ChevronDown size={0.5} />
+                  </Button>
+                </TooltipComponent>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <BookMarked size={20} />
+                    <h4 className="text-base">New Repository</h4>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <BookUp size={20} />
+                    <h4 className="text-base">Import Repository</h4>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator className="bg-gray-300" />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <Computer size={20} />
+                    <h4 className="text-base">New CodeSpace</h4>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <ChevronsLeftRight size={20} />
+                    <h4 className="text-base">New Gist</h4>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator className="bg-gray-300" />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <Building2 size={20} />
+                    <h4 className="text-base">New Organization</h4>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <div className="lg:block md:block hidden">
+            <TooltipComponent tooltipContent={"Issues"}>
+              <Button variant={"outline"} size={"sm"}>
+                <CircleDot size={0.5} />
+              </Button>
+            </TooltipComponent>
+          </div>
+          <div className="lg:block md:block hidden">
+            <TooltipComponent tooltipContent={"Pull Requests"}>
+              <Button variant={"outline"} size={"sm"}>
+                <GitPullRequest size={0.5} />
+              </Button>
+            </TooltipComponent>
+          </div>
           <TooltipComponent
             tooltipContent={"You have no unread notuifications"}
           >
-            <Button variant={"outline"} size={"sm"}>
+            <Button variant={"outline"} size={"icon"}>
               <Bell size={0.5} />
             </Button>
           </TooltipComponent>
           <WrappedAvatar
             imageSource="https://github.com/shadcn.png"
             imageAlt="profileImage"
-            className="w-12 h-12 rounded-full"
+            className="w-10 h-10 rounded-full"
             fallbackValue="HC"
           />
         </div>
