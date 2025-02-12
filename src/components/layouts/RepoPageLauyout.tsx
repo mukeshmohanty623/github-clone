@@ -1,42 +1,27 @@
-// import { Button } from "@/components/ui/button";
+import { Header, type HeaderProps } from "@/components/Header";
+import { Icons } from "../icons/icons";
+import { NavBar } from "../Navigation";
 
-import { GlobeDemo } from "@/components/GithubGlobe";
-import { Icons } from "@/components/icons/icons";
-import { NavBar } from "@/components/Navigation";
-
-export default function Home() {
+export default function RepoPageLayout({
+  children,
+  headerData,
+}: {
+  headerData: HeaderProps;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="min-h-screen bg-[#111341]">
-      <header className="bg-gray-900 text-white">
-        <NavBar className="bg-[#111341]" />
+    <>
+      <header className="bg-gray-100">
+        <NavBar/>
+        <Header {...headerData} />
       </header>
-      <main className="container mx-auto px-4 py-8">
-        <section>
-          <h1 className="text-6xl font-bold mb-4 text-white text-center">
-            Welcome to GitHub Clone
-          </h1>
-          <div className="flex justify-center items-center">
-            <p className="text-white  text-center  lg:max-w-[600px]">
-              We’ve built a clone of the repository homepage for public
-              repositories. Simply enter the repository name and organization in
-              the browser search bar <a href="/facebook/react" className="font-bold text-[#79C0FF]">{`(e.g., ${process.env.HOST}/facebook/react)`}</a>to navigate.
-            </p>
-          </div>
-
-          <GlobeDemo />
-        </section>
-      </main>
-      <footer className="px-4 py-16 text-white">
+      <main className="max-w-full">{children}</main>
+      <footer className="px-4 py-16">
         <div className="flex-col-reverse flex lg:flex-row flex-wrap lg:flex-nowrap items-center justify-center gap-2">
           <div className="flex items-center gap-2 justify-center">
             <a href="https://www.github.com" aria-label="github">
-              <Icons.gitHub
-                title="github"
-                // @ts-expect-error
-                height={"24"}
-                width={"24"}
-                fill="white"
-              />
+              {/* @ts-ignore */}
+              <Icons.gitHub title="github" height={"24"} width={"24"} />
             </a>
             <span className="text-xs">© 2025 GitHub, Inc.</span>
           </div>
@@ -101,6 +86,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
