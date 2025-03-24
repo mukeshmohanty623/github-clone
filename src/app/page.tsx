@@ -3,6 +3,8 @@
 import { GlobeDemo } from "@/components/GithubGlobe";
 import { Icons } from "@/components/icons/icons";
 import { NavBar } from "@/components/Navigation";
+import { Button } from "@/components/ui/button";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 export default function Home() {
   return (
@@ -19,10 +21,30 @@ export default function Home() {
             <p className="text-white  text-center  lg:max-w-[600px]">
               We’ve built a clone of the repository homepage for public
               repositories. Simply enter the repository name and organization in
-              the browser search bar <a href="/facebook/react" className="font-bold text-[#79C0FF]">{`(e.g., ${process.env.HOST}/facebook/react)`}</a>to navigate.
+              the browser search bar.
             </p>
           </div>
-
+          <div className="flex justify-center items-center flex-wrap">
+            <TypewriterEffectSmooth
+              cursorClassName="xl:h-4"
+              className="items-center justify-center"
+              words={[
+                {
+                  text: `(e.g., ${process.env.HOST}/facebook/react)`,
+                  className: "text-[#79C0FF]",
+                },
+              ]}
+            />
+            <a href="/facebook/react">
+              <Button
+                variant={"outline"}
+                className="hover:bg-inherit hover:text-gray-200 bg-inherit text-white ml-4"
+                size={"xsm"}
+              >
+                Click here
+              </Button>
+            </a>
+          </div>
           <GlobeDemo />
         </section>
       </main>
