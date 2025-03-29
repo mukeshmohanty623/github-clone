@@ -472,7 +472,7 @@ HeaderProps) {
           <Button variant="outline" size="icon">
             <Menu size={10} />
           </Button>
-          <a href="https://www.github.com" aria-label="github" className="ml-2">
+          <a href="/" aria-label="github" className="ml-2">
             {/* @ts-ignore */}
             <Icons.gitHub title="github" width={"32"} height={"32"} />
           </a>

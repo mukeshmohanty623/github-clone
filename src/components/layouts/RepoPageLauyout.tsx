@@ -19,7 +19,7 @@ export default function RepoPageLayout({
       <footer className="px-4 py-16">
         <div className="flex-col-reverse flex lg:flex-row flex-wrap lg:flex-nowrap items-center justify-center gap-2">
           <div className="flex items-center gap-2 justify-center">
-            <a href="https://www.github.com" aria-label="github">
+            <a href="/" aria-label="github">
               {/* @ts-ignore */}
               <Icons.gitHub title="github" height={"24"} width={"24"} />
             </a>
@@ -62,7 +62,7 @@ export default function RepoPageLayout({
               Docs
             </a>
             <a
-              href="https://support.github.com/?tags=dotcom-footer"
+              href="https://mukesh-mohanty.vercel.app"
               aria-label="github"
               className="text-xs hover:underline hover:text-blue-600"
             >

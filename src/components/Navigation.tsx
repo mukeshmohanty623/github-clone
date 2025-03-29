@@ -25,7 +25,7 @@ export function NavBar({className}:{className?:string}) {
   return (
     <div className={cn("flex justify-between items-center px-5 py-4 bg-[#25292f] text-white",className)}>
       <div className="lg:flex gap-2 items-center hidden">
-        <a href="https://www.github.com" aria-label="github" className="ml-2">
+        <a href="/" aria-label="github" className="ml-2">
           <Icons.gitHub
             title="github"
             // @ts-ignore
@@ -308,7 +308,7 @@ export function NavBar({className}:{className?:string}) {
         <Menu size={30} />
       </Button>
       <a
-        href="https://www.github.com"
+        href="/"
         aria-label="github"
         className="ml-2 lg:hidden"
       >

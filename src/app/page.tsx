@@ -99,7 +99,7 @@ export default function Home() {
               Docs
             </a>
             <a
-              href="https://support.github.com/?tags=dotcom-footer"
+              href="https://mukesh-mohanty.vercel.app"
               aria-label="github"
               className="text-xs hover:underline hover:text-blue-600"
             >
