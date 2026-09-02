@@ -28,9 +28,8 @@ import {
   }: RepoDetailsProps) {
     const [isStarClicked, setIsStarClicked] = useState(false);
   
-    const handleStartClick = async () => {
+    const handleStartClick = () => {
       setIsStarClicked((prev) => !prev);
-      await fetch(`https://api.github.com/repos/fastify/fastify/readme`);
     };
     return (
       <>

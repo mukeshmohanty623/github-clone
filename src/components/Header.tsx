@@ -56,6 +56,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs";
 import { useState } from "react";
+import type { RepoData } from "@/types/github";
 
 export type HeaderProps = {
   orgName: string;
@@ -63,7 +64,7 @@ export type HeaderProps = {
   repoUrl: string;
   orgUrl: string;
   forksCount: string;
-  repoData: any;
+  repoData: RepoData;
   visibility: string;
   branchCount: string;
   tagsCount: string;
@@ -269,9 +270,8 @@ HeaderProps) {
   };
   const [isStarClicked, setIsStarClicked] = useState(false);
 
-  const handleStartClick = async () => {
+  const handleStartClick = () => {
     setIsStarClicked((prev) => !prev);
-    await fetch(`https://api.github.com/repos/fastify/fastify/readme`);
   };
   return (
     <>

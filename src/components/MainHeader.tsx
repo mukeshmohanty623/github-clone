@@ -56,6 +56,8 @@ export type MainHeaderProps = {
   branches: string[];
   tags: string[];
   defaultBranch: string;
+  orgName: string;
+  repoName: string;
 };
 
 export function MainHeader({
@@ -68,14 +70,11 @@ export function MainHeader({
   branches,
   tags,
   defaultBranch,
+  orgName,
+  repoName,
 }: MainHeaderProps) {
   const [selectedTab, setSelectedTab] = useState<string>("branches");
   const [copied, setCopied] = useState(false);
-
-  const { pathname } = window.location;
-  const splittedPathName = pathname.split("/");
-  const orgName = splittedPathName[1];
-  const repoName = splittedPathName[2];
   const handleOnValueChangeTabs = (value: string) => {
     setSelectedTab(value);
   };
