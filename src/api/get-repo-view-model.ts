@@ -15,7 +15,9 @@ import {
   getUser,
 } from "@/api/github";
 import { getTreeWithLatestCommit } from "@/api/get-tree-with-commits";
+import { unstable_cache } from "next/cache";
 import { formatCompactCount } from "@/lib/format";
+import { REPO_CACHE_TTL, repoTag } from "@/lib/cache";
 import type { HeaderProps } from "@/components/Header";
 import type { MainHeaderProps } from "@/components/MainHeader";
 import type { CodeTreeTableProps } from "@/components/CodeTreeTable";
@@ -24,7 +26,7 @@ import type { ReleaseData, DeploymentData, RepoViewModel } from "@/types/github"
 // Fetches everything the repo page needs and returns it pre-shaped to the
 // component prop contracts. Replaces the inline fetch + transform logic that
 // used to live in `src/app/[org]/[repo]/page.tsx`.
-export async function getRepoViewModel(
+async function buildRepoViewModel(
   org: string,
   repo: string,
 ): Promise<RepoViewModel> {
@@ -170,4 +172,19 @@ export async function getRepoViewModel(
       licenseName: repoData.license?.name ?? null,
     },
   };
+}
+
+// Cross-request cache around the assembler. One entry per repo (case-insensitive
+// key), valid for `REPO_CACHE_TTL`, then stale-while-revalidate. The returned
+// `RepoViewModel` is plain JSON so it round-trips through Next's Data Cache. A
+// thrown error is not cached; `{ notFound: true }` is.
+export function getRepoViewModel(
+  org: string,
+  repo: string,
+): Promise<RepoViewModel> {
+  return unstable_cache(
+    () => buildRepoViewModel(org, repo),
+    ["repo-view-model", org.toLowerCase(), repo.toLowerCase()],
+    { revalidate: REPO_CACHE_TTL, tags: [repoTag(org, repo)] },
+  )();
 }

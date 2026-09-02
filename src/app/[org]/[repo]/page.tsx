@@ -27,6 +27,11 @@ import { getRepoViewModel } from "@/api/get-repo-view-model";
 
 dayjs.extend(relativeTime);
 
+// Cache the rendered route per URL (Full Route Cache) in production, matching the
+// data cache TTL in `src/lib/cache.ts`. No effect under `next dev`, which always
+// renders dynamically.
+export const revalidate = 300;
+
 type Props = {
   params: Promise<{ org: string; repo: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

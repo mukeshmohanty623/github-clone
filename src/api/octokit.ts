@@ -1,5 +1,7 @@
 import { Octokit, RequestError } from "octokit";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
+import { REPO_CACHE_TTL, repoTag } from "@/lib/cache";
 
 // Single shared Octokit instance for all server-side GitHub calls.
 //
@@ -17,10 +19,9 @@ export const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
 export { RequestError };
 
-// Request-scoped memoization so `generateMetadata` and the page component share
-// a single `repos.get` call. Returns `null` on 404 so callers can render the
-// "not found" state instead of throwing.
-export const getRepo = cache(async (owner: string, repo: string) => {
+// Returns `null` on 404 so callers can render the "not found" state instead of
+// throwing. A thrown error is never cached; `null` is.
+async function fetchRepoRaw(owner: string, repo: string) {
   try {
     const { data } = await octokit.rest.repos.get({ owner, repo });
     return data;
@@ -28,4 +29,15 @@ export const getRepo = cache(async (owner: string, repo: string) => {
     if (error instanceof RequestError && error.status === 404) return null;
     throw error;
   }
-});
+}
+
+// `cache` (react) dedupes within a single request — `generateMetadata` and the
+// page render share one call. `unstable_cache` (next) persists the result across
+// requests for `REPO_CACHE_TTL`, keyed + tagged per repo.
+export const getRepo = cache((owner: string, repo: string) =>
+  unstable_cache(
+    () => fetchRepoRaw(owner, repo),
+    ["repo-get", owner.toLowerCase(), repo.toLowerCase()],
+    { revalidate: REPO_CACHE_TTL, tags: [repoTag(owner, repo)] },
+  )(),
+);
