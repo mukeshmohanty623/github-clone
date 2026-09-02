@@ -38,6 +38,11 @@ export async function getRepoViewModel(
   const branch = repoData.default_branch;
   const htmlUrl = repoData.html_url;
 
+  // One `getTree` call, shared: the doc scan below needs the root entries, and
+  // the file-tree table derives its rows from them. Chaining off the same
+  // promise keeps everything in the parallel batch (no serial pre-fetch).
+  const treePromise = getTree(org, repo, branch);
+
   const [
     user,
     readmeContents,
@@ -48,8 +53,8 @@ export async function getRepoViewModel(
     communityProfile,
     branches,
     tags,
-    tree,
     latestCommitDetails,
+    tree,
     codeTreeRows,
   ] = await Promise.all([
     getUser(owner),
@@ -61,9 +66,14 @@ export async function getRepoViewModel(
     getCommunityProfile(org, repo).catch(() => null),
     getBranches(org, repo),
     getTags(org, repo),
-    getTree(org, repo, branch),
     getLastCommitDetails(org, repo, branch),
-    getTreeWithLatestCommit(org, repo, branch),
+    treePromise,
+    treePromise
+      .then((t) => getTreeWithLatestCommit(org, repo, branch, t.tree))
+      .catch((err) => {
+        console.error("getTreeWithLatestCommit failed:", err);
+        return [];
+      }),
   ]);
 
   // Locate the standard community docs at the repo root.
